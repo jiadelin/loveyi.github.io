@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿德 永远爱 阿怡~</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #111; /* Set the background color to very dark gray */
+        }
+        .container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .media {
+            margin-top: 20px;
+        }
+        img, video {
+            max-width: 100%;
+            display: none;
+        }
+        #photo {
+            width: 200px; /* Set the image width to 200px */
+            height: auto; /* Auto-adjust the height to maintain aspect ratio */
+        }
+        #video {
+            height: 760px; /* Set the video height to 760 pixels */
+            width: auto; /* Auto-adjust the width to maintain aspect ratio */
+        }
+        h1 {
+            color: #FF6B6B; /* Set the text color to a romantic shade of red */
+            font-family: "Times New Roman", serif; /* Use a more romantic font */
+            font-size: 2.5rem; /* Increase font size for emphasis */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>阿德 永远爱 阿怡~</h1>
+        <div class="media" id="mediaContainer">
+            <img src="MediaFiles/mi_foto.jpg" alt="Your Image" id="photo">
+            <video controls id="video">
+                <source src="MediaFiles/video1080p.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <select id="optionSelector">
+            <option value="photo144p">144p</option>
+            <option value="photo360p">360p</option>
+            <option value="photo760p">760p</option>
+            <option value="video1080p">1080p</option>
+        </select>
+        <audio autoplay loop id="backgroundMusic">
+            <source src="MediaFiles/background_music.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        const photo = document.getElementById("photo");
+        const video = document.getElementById("video");
+        const optionSelector = document.getElementById("optionSelector");
+        const backgroundMusic = document.getElementById("backgroundMusic");
+
+        // Define an object mapping resolution options to image sources
+        const imageSources = {
+            photo144p: "MediaFiles/photo144p.png",
+            photo360p: "MediaFiles/photo360p.png",
+            photo760p: "MediaFiles/photo760p.png",
+            video1080p: "MediaFiles/video1080p.mp4",
+        };
+
+        // Add an event listener to the selector
+        optionSelector.addEventListener("change", function () {
+            const selectedOption = optionSelector.value;
+            if (selectedOption.startsWith("photo")) {
+                const selectedImageSource = imageSources[selectedOption];
+                photo.src = selectedImageSource;
+                photo.style.display = "block";
+                video.style.display = "none";
+                exitFullscreen();
+            } else if (selectedOption === "video1080p") {
+                photo.style.display = "none";
+                video.style.display = "block";
+                playVideoInFullscreen();
+            }
+        });
+
+        // Add a click event listener to the video element
+        video.addEventListener("click", function () {
+            // Pause the background music when the video is clicked
+            backgroundMusic.pause();
+        });
+
+        // Initialize with the default option
+        optionSelector.value = "photo144p";
+        const initialImageSource = imageSources[optionSelector.value];
+        photo.src = initialImageSource;
+        photo.style.display = "block";
+        video.style.display = "none";
+
+        // Function to play video in fullscreen
+        function playVideoInFullscreen() {
+            if (video.requestFullscreen) {
+                video.requestFullscreen().then(() => {
+                    video.play();
+                });
+            } else if (video.mozRequestFullScreen) {
+                video.mozRequestFullScreen().then(() => {
+                    video.play();
+                });
+            } else if (video.webkitRequestFullscreen) {
+                video.webkitRequestFullscreen().then(() => {
+                    video.play();
+                });
+            }
+        }
+
+        // Function to exit fullscreen
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+    </script>
+</body>
+</html>
